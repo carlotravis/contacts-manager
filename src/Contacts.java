@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,8 +8,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Contacts {
+
     static Scanner sc;
     static int choice;
+    static String directory = "manager";
+    static String filename = "contacts.txt";
+    public static final Path dataDirectory = Paths.get(directory);
+    public static final Path dataFile = Paths.get(directory, filename);
+
     public static int menu() {
         sc = new Scanner(System.in);
         System.out.println("1. View contacts\n" +
@@ -19,7 +26,21 @@ public class Contacts {
         System.out.print("Enter an option (1, 2, 3, 4 or 5)");
 
         choice = sc.nextInt();
+        if(choice == 1){
+            allContacts();
+        }
         return choice;
+    }
+
+    public static void allContacts() {
+        try{
+            List<String> contacts = Files.readAllLines(dataFile);
+            for(String contact: contacts){
+                System.out.println(contact);
+            }
+        }catch (IOException e){
+            System.out.println(e);
+        }
     }
 
     public static void createFile() {
@@ -37,15 +58,18 @@ public class Contacts {
                 Files.createFile(dataFile);
             }
 
+            List<String> contacts = Files.readAllLines(dataFile);
+            for (String contact : contacts) {
+                System.out.println(contact);
+            }
 
 
-            List<String> contacts = new ArrayList<>();
-            contacts.add("Travis 210-210-2102");
-            Files.write(dataFile, contacts);
+//            List<String> contacts = new ArrayList<>();
+//            contacts.add("Travis 210-210-2102");
+//            Files.write(dataFile, contacts);
         } catch (IOException e) {
             System.out.println(e);
         }
-
 
     }
 
