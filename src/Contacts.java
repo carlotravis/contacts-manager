@@ -3,7 +3,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,7 +21,7 @@ public class Contacts {
     public static int menu() {
         sc = new Scanner(System.in);
         System.out.println("1. View contacts\n" +
-                "2. Add  a new contact\n" +
+                "2. Add a new contact\n" +
                 "3. Search a contact by name\n" +
                 "4. Delete an existing contact\n" +
                 "5. Exit");
@@ -28,6 +30,8 @@ public class Contacts {
         choice = sc.nextInt();
         if(choice == 1){
             allContacts();
+        } else if (choice == 2) {
+            addContacts();
         }
         return choice;
     }
@@ -43,13 +47,26 @@ public class Contacts {
         }
     }
 
+    public static void addContacts() {
+        System.out.println("Enter name and number of new contact: ");
+        sc.nextLine();
+        try {
+            Files.write(
+                    Paths.get("manager", "contacts.txt"),
+                    Arrays.asList(sc.nextLine()),
+                    StandardOpenOption.APPEND
+            );
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
     public static void createFile() {
         String directory = "manager";
         String filename = "contacts.txt";
 
         Path dataDirectory = Paths.get(directory);
         Path dataFile = Paths.get(directory, filename);
-        System.out.println(dataFile.toAbsolutePath());
         try {
             if (Files.notExists(dataDirectory)) {
                 Files.createDirectory(dataDirectory);
@@ -58,10 +75,10 @@ public class Contacts {
                 Files.createFile(dataFile);
             }
 
-            List<String> contacts = Files.readAllLines(dataFile);
-            for (String contact : contacts) {
-                System.out.println(contact);
-            }
+//            List<String> contacts = Files.readAllLines(dataFile);
+//            for (String contact : contacts) {
+//                System.out.println(contact);
+//            }
 
 
 //            List<String> contacts = new ArrayList<>();
