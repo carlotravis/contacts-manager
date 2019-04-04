@@ -1,13 +1,12 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Contacts {
 
@@ -17,7 +16,8 @@ public class Contacts {
     private static String filename = "contacts.txt";
     private static final Path dataDirectory = Paths.get(directory);
     private static final Path dataFile = Paths.get(directory, filename);
-    private static  List<String> contacts = new ArrayList<>();
+
+    private static List<String> contacts = new ArrayList<>();
 
     public static int menu() {
         sc = new Scanner(System.in);
@@ -29,7 +29,7 @@ public class Contacts {
         System.out.print("Enter an option (1, 2, 3, 4 or 5)");
 
         choice = sc.nextInt();
-        if(choice == 1){
+        if (choice == 1) {
             allContacts();
             menu();
         } else if (choice == 2) {
@@ -38,24 +38,31 @@ public class Contacts {
         } else if (choice == 3) {
             findContact();
             menu();
+        }else if (choice == 4) {
+            deleteContact();
+            menu();
         }
         return choice;
     }
 
     public static void allContacts() {
-        try{
+
+        try {
             List<String> contacts = Files.readAllLines(dataFile);
             System.out.println();
-            for(String contact: contacts){
+
+            for (String contact : contacts) {
                 System.out.println(contact);
             }
+
             System.out.println();
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e);
         }
     }
 
     public static void addContacts() {
+
         System.out.println("Enter name and number of new contact: ");
         sc.nextLine();
         try {
@@ -64,9 +71,11 @@ public class Contacts {
                     Arrays.asList(sc.nextLine()),
                     StandardOpenOption.APPEND
             );
+
         } catch (IOException e) {
             System.out.println(e);
         }
+
         System.out.println("Add another contact? [y/n] ");
         if (sc.next().equals("y")) {
             addContacts();
@@ -75,7 +84,6 @@ public class Contacts {
             menu();
             sc.nextLine();
         }
-
     }
 
     public static void createFile() {
@@ -92,35 +100,52 @@ public class Contacts {
                 Files.createFile(dataFile);
             }
 
-//            List<String> contacts = Files.readAllLines(dataFile);
-//            for (String contact : contacts) {
-//                System.out.println(contact);
-//            }
-
-
-//            List<String> contacts = new ArrayList<>();
-//            contacts.add("Travis 210-210-2102");
-//            Files.write(dataFile, contacts);
         } catch (IOException e) {
             System.out.println(e);
         }
-
     }
 
     public static void findContact() {
+
         System.out.println("Who are you looking for? ");
         sc.nextLine();
         String nameToFind = sc.nextLine();
-        try{
-            List<String> contacts = Files.readAllLines(dataFile);
-            System.out.println();
-            for(String contact: contacts){
-                System.out.println(contact);
-                if (contact.equals(nameToFind)) {
+
+        try {
+            for (String contact : contacts) {
+                if (contact.equals(dataFile)) {
                     System.out.println(contact);
+                    List<String> contacts = Files.readAllLines(dataFile);
+                    System.out.println(contact);
+
+//            for(String contact: contacts){
+//                System.out.println(contact);
+
+//                if (contact.equals(nameToFind)) {
+//                    System.out.println(contact);
                 }
             }
             System.out.println();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
+    public static void deleteContact() {
+        System.out.println("Do you wish to delete the contact?");
+        sc.nextLine();
+        String nameToDelete = sc.nextLine();
+
+        try {
+
+            List<String> contacts = Files.readAllLines(dataFile);
+            System.out.println(contacts);
+
+            if (sc.next().equals("y")) {
+                deleteContact();
+                for(String contact: contacts);
+                sc.nextLine();
+            }
         }catch (IOException e){
             System.out.println(e);
         }
@@ -129,7 +154,5 @@ public class Contacts {
     public static void main(String[] args) {
         createFile();
         menu();
-
-
     }
 }
