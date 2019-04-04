@@ -11,12 +11,13 @@ import java.util.Scanner;
 
 public class Contacts {
 
-    static Scanner sc;
-    static int choice;
-    static String directory = "manager";
-    static String filename = "contacts.txt";
-    public static final Path dataDirectory = Paths.get(directory);
-    public static final Path dataFile = Paths.get(directory, filename);
+    private static Scanner sc;
+    private static int choice;
+    private static String directory = "manager";
+    private static String filename = "contacts.txt";
+    private static final Path dataDirectory = Paths.get(directory);
+    private static final Path dataFile = Paths.get(directory, filename);
+    private static  List<String> contacts = new ArrayList<>();
 
     public static int menu() {
         sc = new Scanner(System.in);
@@ -30,8 +31,13 @@ public class Contacts {
         choice = sc.nextInt();
         if(choice == 1){
             allContacts();
+            menu();
         } else if (choice == 2) {
             addContacts();
+            menu();
+        } else if (choice == 3) {
+            findContact();
+            menu();
         }
         return choice;
     }
@@ -39,9 +45,11 @@ public class Contacts {
     public static void allContacts() {
         try{
             List<String> contacts = Files.readAllLines(dataFile);
+            System.out.println();
             for(String contact: contacts){
                 System.out.println(contact);
             }
+            System.out.println();
         }catch (IOException e){
             System.out.println(e);
         }
@@ -59,6 +67,15 @@ public class Contacts {
         } catch (IOException e) {
             System.out.println(e);
         }
+        System.out.println("Add another contact? [y/n] ");
+        if (sc.next().equals("y")) {
+            addContacts();
+            sc.nextLine();
+        } else if (sc.nextLine().equals("n")) {
+            menu();
+            sc.nextLine();
+        }
+
     }
 
     public static void createFile() {
@@ -90,9 +107,29 @@ public class Contacts {
 
     }
 
+    public static void findContact() {
+        System.out.println("Who are you looking for? ");
+        sc.nextLine();
+        String nameToFind = sc.nextLine();
+        try{
+            List<String> contacts = Files.readAllLines(dataFile);
+            System.out.println();
+            for(String contact: contacts){
+                System.out.println(contact);
+                if (contact.equals(nameToFind)) {
+                    System.out.println(contact);
+                }
+            }
+            System.out.println();
+        }catch (IOException e){
+            System.out.println(e);
+        }
+    }
+
     public static void main(String[] args) {
         createFile();
         menu();
+
 
     }
 }
