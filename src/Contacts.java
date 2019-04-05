@@ -6,7 +6,6 @@ import java.util.*;
 public class Contacts {
 
     private static Scanner sc = new Scanner(System.in);
-    private static int choice;
     private static String directory = "manager";
     private static String filename = "contacts.txt";
     private static final Path dataDirectory = Paths.get(directory);
@@ -15,7 +14,7 @@ public class Contacts {
     private static List<String> contacts = new ArrayList<>();
 
 
-    public static int menu() {
+    public static void showMenu() {
         System.out.println("1. View contacts\n" +
                 "2. Add a new contact\n" +
                 "3. Search a contact by name\n" +
@@ -23,22 +22,21 @@ public class Contacts {
                 "5. Exit");
         System.out.print("Enter an option (1, 2, 3, 4 or 5)");
 
-        choice = sc.nextInt();
+        int choice = sc.nextInt();
 
         if (choice == 1) {
             allContacts();
-            menu();
+            showMenu();
         } else if (choice == 2) {
             addContacts();
-            menu();
+            showMenu();
         } else if (choice == 3) {
             findContact();
-            menu();
+            showMenu();
         } else if (choice == 4) {
             deleteContact();
-            menu();
+            showMenu();
         }
-        return choice;
     }
 
     public static void allContacts() {
@@ -68,7 +66,7 @@ public class Contacts {
             addContacts();
             sc.nextLine();
         } else if (sc.nextLine().equals("n")) {
-            menu();
+            showMenu();
             sc.nextLine();
         }
     }
@@ -79,7 +77,7 @@ public class Contacts {
                 Files.createDirectory(dataDirectory);
             }
             if (!Files.exists(dataFile)) {
-                Files.createFile(dataFile);
+                e Files.createFile(dataFile);
             }
 
         } catch (IOException e) {
@@ -103,7 +101,7 @@ public class Contacts {
 
     public static void deleteContact() {
 
-        for(int i = 0; i < contacts.size();i++){
+        for (int i = 0; i < contacts.size(); i++) {
             System.out.println(i + " " + contacts.get(i));
         }
 
@@ -127,6 +125,6 @@ public class Contacts {
     public static void main(String[] args) {
         createFile();
         loadContacts();
-        menu();
+        showMenu();
     }
 }
