@@ -65,10 +65,10 @@ public class Contacts {
         persistContacts();
 
         System.out.println("Add another contact? [y/n] ");
-        if (sc.next().equals("y")) {
+        if (sc.next().equalsIgnoreCase("y")) {
             addContacts();
             sc.nextLine();
-        } else if (sc.nextLine().equals("n")) {
+        } else if (sc.nextLine().equalsIgnoreCase("n")) {
             showMenu();
             sc.nextLine();
         }
@@ -93,12 +93,13 @@ public class Contacts {
         System.out.println("Who are you looking for? ");
         sc.nextLine();
         String name = sc.nextLine();
-
+        System.out.println();
         for (String contact : contacts) {
             if (contact.toLowerCase().contains(name.toLowerCase())) {
-                System.out.println("\n" + contact + "\n");
+                System.out.println(contact);
             }
         }
+        System.out.println();
     }
 
     public static void deleteContact() {
@@ -122,7 +123,6 @@ public class Contacts {
         } catch (IOException e) {
             System.out.println(e);
         }
-
     }
 
     public static void main(String[] args) {
