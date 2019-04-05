@@ -32,19 +32,25 @@ public class Contacts {
             findContact();
         } else if (choice == 4) {
             deleteContact();
+        } else if (choice == 5) {
+            System.out.println("\nGoodbye");
+            System.exit(0);
         }
         showMenu();
     }
 
     public static void allContacts() {
+        System.out.println();
         for (String contact : contacts) {
             System.out.println(contact);
         }
+        System.out.println();
     }
 
     public static void loadContacts() {
         try {
             contacts = Files.readAllLines(dataFile);
+            System.out.println();
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -84,29 +90,29 @@ public class Contacts {
 
     public static void findContact() {
 
-
         System.out.println("Who are you looking for? ");
         sc.nextLine();
         String name = sc.nextLine();
 
         for (String contact : contacts) {
             if (contact.toLowerCase().contains(name.toLowerCase())) {
-                System.out.println(contact);
+                System.out.println("\n" + contact + "\n");
             }
         }
     }
 
     public static void deleteContact() {
-
+        System.out.println();
         for (int i = 0; i < contacts.size(); i++) {
             System.out.println(i + " " + contacts.get(i));
         }
-
+        System.out.println();
         System.out.println("Enter the number of the contact you wish to delete: ");
         int x = sc.nextInt();
         contacts.remove(x);
         persistContacts();
         System.out.println("Contact deleted successfully.");
+        System.out.println();
 
     }
 
