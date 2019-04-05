@@ -26,17 +26,14 @@ public class Contacts {
 
         if (choice == 1) {
             allContacts();
-            showMenu();
         } else if (choice == 2) {
             addContacts();
-            showMenu();
         } else if (choice == 3) {
             findContact();
-            showMenu();
         } else if (choice == 4) {
             deleteContact();
-            showMenu();
         }
+        showMenu();
     }
 
     public static void allContacts() {
@@ -76,8 +73,8 @@ public class Contacts {
             if (Files.notExists(dataDirectory)) {
                 Files.createDirectory(dataDirectory);
             }
-            if (!Files.exists(dataFile)) {
-                e Files.createFile(dataFile);
+            if (Files.notExists(dataFile)) {
+                Files.createFile(dataFile);
             }
 
         } catch (IOException e) {
